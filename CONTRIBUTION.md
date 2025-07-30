@@ -35,7 +35,7 @@ Together, we can make a fully open, searchable, and markdown-based syllabus inde
 
 ````
 
-- ✅ Filenames should always be the **course code** (e.g., `CST402.md`).
+- ✅ Filenames should always be the **numbers** (e.g., `01.md` , `02.md` , ...).
 
 - All **folder and file names** must be in **lowercase**
 
