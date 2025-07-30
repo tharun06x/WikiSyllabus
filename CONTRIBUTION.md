@@ -31,7 +31,7 @@ Together, we can make a fully open, searchable, and markdown-based syllabus inde
 ✅ Example:
 ```
 
-/ktu/computer-science/2019-23/s8/01.md
+/ktu/computer-science/2019/s8/01.md
 
 ````
 
@@ -58,7 +58,7 @@ Each `.md` file must start with YAML frontmatter:
 country: "india"
 university: "ktu"
 branch: "computer-science"
-version: "2019-23"
+version: "2019"
 semester: 8
 course_code: "CST402"
 course_title: "Distributed Computing"
