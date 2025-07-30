@@ -39,9 +39,7 @@ Together, we can make a fully open, searchable, and markdown-based syllabus inde
 
 - All **folder and file names** must be in **lowercase**
 
-- If more than one word, use **hyphens** (not underscores or spaces)  
-  ✅ `calicut-university` instead of `CalicutUniversity`  
-  ✅ `computer-science` instead of `CSE`
+- If more than one word, use **hyphens** (not underscores or spaces)
 
 ### 🔹 Filenames
 
