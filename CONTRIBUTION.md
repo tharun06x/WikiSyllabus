@@ -25,7 +25,7 @@ Together, we can make a fully open, searchable, and markdown-based syllabus inde
 
 ```
 
-/university/branch/year/semester/xx.md
+universities/university/branch/year/semester/xx.md
 
 ```
 
@@ -33,7 +33,7 @@ Together, we can make a fully open, searchable, and markdown-based syllabus inde
 
 ```
 
-/ktu/computer-science/2019/s8/01.md
+universities/ktu/computer-science/2019/s8/01.md
 
 ````
 
