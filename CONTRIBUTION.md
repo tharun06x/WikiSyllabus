@@ -1,3 +1,4 @@
+
 # 📚 Contribution Guide
 
 Thank you for your interest in contributing to this WikiSyllabus Repository! 🙌  
@@ -24,28 +25,26 @@ Together, we can make a fully open, searchable, and markdown-based syllabus inde
 
 ```
 
-/university/branch/year/semester/XX.md
+/university/branch/year/semester/xx.md
 
 ```
 
 ✅ Example:
+
 ```
 
 /ktu/computer-science/2019/s8/01.md
 
 ````
 
-- ✅ Filenames should always be the **numbers** (e.g., `01.md` , `02.md` , ...).
+### 🔹 Rules
 
-- All **folder and file names** must be in **lowercase**
-
-- If more than one word, use **hyphens** (not underscores or spaces)
-
-### 🔹 Filenames
-
-- **Use `01.md`, `02.md`, ...** to index courses within a semester
-- Do **not** use course code in filename
-- Course details like code/title should be inside the **YAML frontmatter**
+- ✅ **Every file and directory name must be written in lowercase.**  
+- 🔁 If you come across any uppercase in structure, **rename them to lowercase.**
+- ✅ Filenames should always be **numbers** (e.g., `01.md`, `02.md`, ...)
+- ❌ Do **not** use course codes in filenames.
+- ✅ Course details like code/title should be inside the **YAML frontmatter**
+- ✅ For multiple words in folder names, use **hyphens**, not underscores or spaces.
 
 ---
 
@@ -60,24 +59,27 @@ university: "ktu"
 branch: "computer-science"
 version: "2019"
 semester: 8
-course_code: "CST402"
-course_title: "Distributed Computing"
+course_code: "cst402"
+course_title: "distributed computing"
 language: "english"
 contributor: "@your-github-username"
 ---
+````
 
-Follow this by the syllabus content (objectives, content, references, etc.)
+Follow this with the syllabus content (objectives, content, references, etc.)
 
-```
+---
 
 ## 📝 How to Contribute
 
 ### 1. **Fork the Repository**
+
 Create your own copy of the repository to work on.
 
 ### 2. **Create a New Branch**
+
 ```bash
-git checkout -b feat/add-CST402
+git checkout -b feat/add-cst402
 ```
 
 ### 3. **Add Your Markdown File**
@@ -88,7 +90,7 @@ Use the correct folder structure and file naming convention.
 
 ```bash
 git add .
-git commit -m "feat: add CST402 - Distributed Computing"
+git commit -m "feat: add cst402 - distributed computing"
 ```
 
 ### 5. **Push and Make a Pull Request**
@@ -104,23 +106,23 @@ Then go to GitHub and open a **Pull Request (PR)** to the **dev** branch.
 ## 🔍 Before You Submit
 
 ✅ Check if the course already exists.
-
 ✅ Double-check formatting and spelling.
-
 ✅ Add your GitHub username as `contributor`.
+✅ Ensure **all folders and files are lowercase**.
+✅ Confirm naming and structure matches the guidelines.
 
-✅ Check spelling, formatting, and completeness
 ---
 
 ## 🤝 Code of Conduct
 
-Be respectful and collaborative. This is a shared space for learning and helping others.
+Please follow the [CODE\_OF\_CONDUCT.md](./CODE_OF_CONDUCT.md).
+Be respectful, inclusive, and collaborative — this is a shared space for learning and helping others.
 
 ---
 
 ## 🙋 Need Help?
 
-Open an [issue](https://github.com/your-repo/issues) or tag `@arjun-ms` in your PR.
+Open an [issue](https://github.com/The-Purple-Movement/WikiSyllabus/issues) or tag a maintainer (e.g., `@admin`) in your PR for assistance.
 
 ---
 
