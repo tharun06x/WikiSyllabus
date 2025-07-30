@@ -3,7 +3,6 @@
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-∞-orange.svg?style=flat-square)](#contributors)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![CI](https://github.com/The-Purple-Movement/WikiSyllabus/actions/workflows/mdbook.yml/badge.svg)](https://github.com/The-Purple-Movement/WikiSyllabus/actions/workflows/mdbook.yml)
 [![Open Issues](https://img.shields.io/github/issues/The-Purple-Movement/WikiSyllabus)](https://github.com/The-Purple-Movement/WikiSyllabus/issues)
 
 ---
