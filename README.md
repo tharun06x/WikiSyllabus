@@ -38,7 +38,7 @@ Each syllabus file is organized in the following structure:
 
 ```
 
-/university/branch/year/semester/xx.md
+universities/university/branch/year/semester/xx.md
 
 ```
 
@@ -46,7 +46,9 @@ Each syllabus file is organized in the following structure:
 
 ```
 
-/ktu/computer-science/2019/s8/01.md
+
+
+universities/ktu/computer-science/2019/s8/01.md
 
 ````
 
