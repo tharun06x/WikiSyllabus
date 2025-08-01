@@ -125,13 +125,25 @@ KTU Chemical Engineering 2019 S1-S6
 
 ---
 
+### 📝 Add a Meaningful Description in Your PR
+
+When creating your Pull Request, **please include a short description** that explains:
+
+* What syllabus/courses you added or edited
+* Any file restructuring you performed
+* Any other relevant changes or notes
+
+✅ This helps reviewers quickly understand your contribution and speeds up the approval process!
+
+---
+
 ## 🔍 Before You Submit
 
-✅ Check if the course already exists.
-✅ Double-check formatting and spelling.
-✅ Add your GitHub username as `contributor`.
-✅ Ensure **all folders and files are lowercase**.
-✅ Confirm naming and structure matches the guidelines.
+- ✅ Check if the course already exists.
+- ✅ Double-check formatting and spelling.
+- ✅ Add your GitHub username as `contributor`.
+- ✅ Ensure **all folders and files are lowercase**.
+- ✅ Confirm naming and structure matches the guidelines.
 
 ---
 
