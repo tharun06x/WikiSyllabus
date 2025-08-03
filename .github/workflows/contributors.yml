@@ -24,15 +24,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm"
 
-      # 3️⃣ Create script & install dependencies dynamically
-      - name: Create script and install dependencies
+      # 3️⃣ Install required dependencies in-memory (no package.json)
+      - name: Install dependencies
+        run: npm install gray-matter node-fetch@2 glob
+
+      # 4️⃣ Run script inline (no .js file saved)
+      - name: Generate CONTRIBUTORS.md
         run: |
-          mkdir -p .github/scripts
-          
-          # Create JS script dynamically
-          cat > .github/scripts/generate-contributors.js <<'EOF'
+          node - <<'EOF'
           const fs = require("fs");
           const matter = require("gray-matter");
           const fetch = require("node-fetch");
@@ -118,13 +118,6 @@ jobs:
             console.log("🎉 CONTRIBUTORS.md updated!");
           })();
           EOF
-
-          # Install dependencies dynamically without package.json
-          npm install js-yaml gray-matter node-fetch@2 glob
-
-      # 4️⃣ Run the script
-      - name: Run script
-        run: node .github/scripts/generate-contributors.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
