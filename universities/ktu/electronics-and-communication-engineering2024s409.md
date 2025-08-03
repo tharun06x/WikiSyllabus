@@ -5,8 +5,8 @@ university: "ktu"
 branch: "ece"
 version: "2024"
 semester: 4
-course-code: "peect416"
-course-title: "digital-system-design"
+course_code: "peect416"
+course_title: "digital-system-design"
 language: "english"
 contributor: "@arya3077"
 
