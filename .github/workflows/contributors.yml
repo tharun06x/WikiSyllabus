@@ -4,8 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+
 permissions:
   contents: write
+
 jobs:
   generate-contributors:
     runs-on: ubuntu-latest
@@ -22,15 +24,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: "npm"
 
-      # 3️⃣ Install dependencies (no package.json needed)
-      - name: Install required dependencies
-        run: npm install js-yaml gray-matter node-fetch@2 glob
-
-      # 4️⃣ Create the script (NO escaped backticks — valid JS)
-      - name: Create generate-contributors.js
+      # 3️⃣ Create script & install dependencies dynamically
+      - name: Create script and install dependencies
         run: |
           mkdir -p .github/scripts
+          
+          # Create JS script dynamically
           cat > .github/scripts/generate-contributors.js <<'EOF'
           const fs = require("fs");
           const matter = require("gray-matter");
@@ -118,20 +119,26 @@ jobs:
           })();
           EOF
 
-      # 5️⃣ Run the script
+          # Install dependencies dynamically without package.json
+          npm install js-yaml gray-matter node-fetch@2 glob
+
+      # 4️⃣ Run the script
       - name: Run script
         run: node .github/scripts/generate-contributors.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
 
-      # 6️⃣ Commit & push if CONTRIBUTORS.md changed
-      - name: Commit and push if changed
+      # 5️⃣ Commit & push only if CONTRIBUTORS.md changed
+      - name: Commit and push if CONTRIBUTORS.md changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ -n "$(git status --porcelain)" ]; then
-            git add CONTRIBUTORS.md
+
+          git add CONTRIBUTORS.md
+          if git diff --cached --quiet; then
+            echo "✅ No changes in CONTRIBUTORS.md to commit."
+          else
             git commit -m "chore: update CONTRIBUTORS.md [skip ci]"
             git push
           fi
