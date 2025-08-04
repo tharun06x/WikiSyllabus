@@ -59,8 +59,8 @@ university: "ktu"
 branch: "computer-science"
 version: "2019"
 semester: 8
-course-code: "cst402"
-course-title: "distributed-computing"
+course_code: "cst402"
+course_title: "distributed-computing"
 language: "english"
 contributor: "@your-github-username"
 ---
