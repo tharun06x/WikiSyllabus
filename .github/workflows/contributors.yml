@@ -13,6 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 🚫 Exit if running in a fork
+      - name: Ensure running in main repository
+        if: github.repository != 'The-Purple-Movement/WikiSyllabus'
+        run: |
+          echo "This action only runs in the main repository (The-Purple-Movement/WikiSyllabus)."
+          exit 0
+
       # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
