@@ -6,6 +6,8 @@ on:
       - 'universities/**'
     branches:
       - main  # or the branch you're working with
+  schedule:
+    - cron: '*/360 * * * *'  # Run every 6 hours
 
 jobs:
   sync:
