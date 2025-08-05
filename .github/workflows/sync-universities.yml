@@ -7,7 +7,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '*/6 * * * *'  # Run every 6 hours
+    - cron: '*/360 * * * *'  # Run every 6 hours
   workflow_dispatch:  # Manual trigger
 
 jobs:
@@ -43,20 +43,12 @@ jobs:
           cd Beyond-Syllabus
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/The-Purple-Movement/Beyond-Syllabus.git
 
-      # Step 5: Pull the latest changes and rebase to avoid merge conflicts
-      - name: Pull and rebase with latest changes
-        run: |
-          cd Beyond-Syllabus
-          git fetch origin
-          git checkout main
-          git pull --rebase origin main
-
-      # Step 6: Copy universities folder from WikiSyllabus to Beyond-Syllabus
+      # Step 5: Copy universities folder from WikiSyllabus to Beyond-Syllabus
       - name: Copy universities folder to Beyond-Syllabus
         run: |
           cp -r universities/* Beyond-Syllabus/universities/
 
-      # Step 7: Commit and push changes to Beyond-Syllabus repository
+      # Step 6: Commit and push changes to Beyond-Syllabus repository
       - name: Commit and push changes to Beyond-Syllabus
         run: |
           cd Beyond-Syllabus
