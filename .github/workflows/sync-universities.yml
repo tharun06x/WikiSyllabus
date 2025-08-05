@@ -43,15 +43,35 @@ jobs:
           cd Beyond-Syllabus
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/The-Purple-Movement/Beyond-Syllabus.git
 
-      # Step 5: Copy universities folder from WikiSyllabus to Beyond-Syllabus
+      # Step 5: Ensure we are on the correct branch (main or master)
+      - name: Checkout the correct branch (main or master)
+        run: |
+          cd Beyond-Syllabus
+          git fetch origin
+          # Try to checkout `main`, if it doesn't exist, fallback to `master`
+          git checkout main || git checkout master || git checkout -b main
+
+      # Step 6: Copy universities folder from WikiSyllabus to Beyond-Syllabus
       - name: Copy universities folder to Beyond-Syllabus
         run: |
           cp -r universities/* Beyond-Syllabus/universities/
+          
+      # Step 7: List files to verify the copy
+      - name: Verify files in universities folder
+        run: |
+          ls -R universities/
 
-      # Step 6: Commit and push changes to Beyond-Syllabus repository
-      - name: Commit and push changes to Beyond-Syllabus
+      # Step 8: Stage and commit the new files
+      - name: Add and commit changes
         run: |
           cd Beyond-Syllabus
+          git status  # Check which files are staged
           git add universities/
+          git status  # Check again to confirm files are staged
           git commit -m "feat: Sync universities folder from WikiSyllabus to Beyond-Syllabus"
+
+      # Step 9: Push changes to Beyond-Syllabus repository
+      - name: Push changes to Beyond-Syllabus
+        run: |
+          cd Beyond-Syllabus
           git push origin main
