@@ -1,0 +1,52 @@
+name: Sync Universities Folder
+
+on:
+  push:
+    paths:
+      - 'universities/**'
+    branches:
+      - main  # or the branch you're working with
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Check if the repository is a fork. If it is, exit the workflow.
+      - name: Check if the repository is a fork
+        run: |
+          if [[ "${GITHUB_REPOSITORY}" != "The-Purple-Movement/WikiSyllabus" ]]; then
+            echo "This workflow does not run on forks."
+            exit 0
+          fi
+
+      # Step 2: Checkout WikiSyllabus repo
+      - name: Checkout WikiSyllabus repository
+        uses: actions/checkout@v3
+        with:
+          repository: The-Purple-Movement/WikiSyllabus
+          ref: main  # Or any specific branch you want to track
+
+      # Step 3: Set up Git config to use your personal details
+      - name: Set up Git config with personal details
+        run: |
+          git config --global user.name "akshay-k-a-dev"
+          git config --global user.email "akshayka@mamocollege.org"
+
+      # Step 4: Clone Beyond-Syllabus repository
+      - name: Clone Beyond-Syllabus repository
+        run: |
+          git clone https://github.com/The-Purple-Movement/Beyond-Syllabus.git
+          
+      # Step 5: Copy universities folder from WikiSyllabus to Beyond-Syllabus
+      - name: Copy universities folder to Beyond-Syllabus
+        run: |
+          cp -r universities/* Beyond-Syllabus/universities/
+          
+      # Step 6: Commit and push changes to Beyond-Syllabus repository using your personal GitHub token
+      - name: Commit and push changes to Beyond-Syllabus
+        run: |
+          cd Beyond-Syllabus
+          git add universities/
+          git commit -m "Sync universities folder from WikiSyllabus"
+          git push https://x-access-token=${{ secrets.GH_TOKEN }}@github.com/The-Purple-Movement/Beyond-Syllabus.git HEAD:main
