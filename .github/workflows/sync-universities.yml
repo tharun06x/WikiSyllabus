@@ -5,10 +5,10 @@ on:
     paths:
       - 'universities/**'
     branches:
-      - main  # or the branch you're working with
+      - main
   schedule:
     - cron: '*/6 * * * *'  # Run every 6 hours
-  workflow_dispatch:  # Allow manual triggering
+  workflow_dispatch:  # Manual trigger
 
 jobs:
   sync:
@@ -40,16 +40,26 @@ jobs:
       - name: Clone Beyond-Syllabus repository
         run: |
           git clone https://github.com/The-Purple-Movement/Beyond-Syllabus.git
-          
-      # Step 5: Copy universities folder from WikiSyllabus to Beyond-Syllabus
+          cd Beyond-Syllabus
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/The-Purple-Movement/Beyond-Syllabus.git
+
+      # Step 5: Pull the latest changes and rebase to avoid merge conflicts
+      - name: Pull and rebase with latest changes
+        run: |
+          cd Beyond-Syllabus
+          git fetch origin
+          git checkout main
+          git pull --rebase origin main
+
+      # Step 6: Copy universities folder from WikiSyllabus to Beyond-Syllabus
       - name: Copy universities folder to Beyond-Syllabus
         run: |
           cp -r universities/* Beyond-Syllabus/universities/
-          
-      # Step 6: Commit and push changes to Beyond-Syllabus repository using your personal GitHub token
+
+      # Step 7: Commit and push changes to Beyond-Syllabus repository
       - name: Commit and push changes to Beyond-Syllabus
         run: |
           cd Beyond-Syllabus
           git add universities/
-          git commit -m "Sync universities folder from WikiSyllabus"
-          git push https://x-access-token=${{ secrets.GH_TOKEN }}@github.com/The-Purple-Movement/Beyond-Syllabus.git HEAD:main
+          git commit -m "feat: Sync universities folder from WikiSyllabus to Beyond-Syllabus"
+          git push origin main
