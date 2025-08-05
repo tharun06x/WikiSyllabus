@@ -7,15 +7,15 @@ on:
     branches:
       - main
   schedule:
-    - cron: '*/360 * * * *'  # Run every 6 hours
-  workflow_dispatch:  # Manual trigger
+    - cron: '0 */6 * * *' # Run every 6 hours
+  workflow_dispatch: # Manual trigger
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     
     steps:
-      # Step 1: Check if the repository is a fork. If it is, exit the workflow.
+      # Step 1: Check if the repository is the original, not a fork
       - name: Check if the repository is a fork
         run: |
           if [[ "${GITHUB_REPOSITORY}" != "The-Purple-Movement/WikiSyllabus" ]]; then
@@ -28,10 +28,10 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: The-Purple-Movement/WikiSyllabus
-          ref: main  # Or any specific branch you want to track
+          ref: main
 
-      # Step 3: Set up Git config to use your personal details
-      - name: Set up Git config with personal details
+      # Step 3: Configure Git identity
+      - name: Set up Git config
         run: |
           git config --global user.name "akshay-k-a-dev"
           git config --global user.email "akshayka@mamocollege.org"
@@ -43,34 +43,35 @@ jobs:
           cd Beyond-Syllabus
           git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/The-Purple-Movement/Beyond-Syllabus.git
 
-      # Step 5: Ensure we are on the correct branch (main or master)
+      # Step 5: Ensure correct branch
       - name: Checkout the correct branch (main or master)
         run: |
           cd Beyond-Syllabus
           git fetch origin
-          # Try to checkout `main`, if it doesn't exist, fallback to `master`
           git checkout main || git checkout master || git checkout -b main
 
-      # Step 6: Copy universities folder from WikiSyllabus to Beyond-Syllabus
+      # Step 6: Copy universities folder
       - name: Copy universities folder to Beyond-Syllabus
         run: |
           cp -r universities/* Beyond-Syllabus/universities/
-          
-      # Step 7: List files to verify the copy
+
+      # Step 7: Verify copied files
       - name: Verify files in universities folder
         run: |
-          ls -R universities/
+          ls -R Beyond-Syllabus/universities/
 
-      # Step 8: Stage and commit the new files
-      - name: Add and commit changes
+      # Step 8: Commit only if there are changes
+      - name: Add and commit changes if any
         run: |
           cd Beyond-Syllabus
-          git status  # Check which files are staged
           git add universities/
-          git status  # Check again to confirm files are staged
+          if git diff --cached --quiet; then
+            echo "No changes to commit. Skipping workflow."
+            exit 0
+          fi
           git commit -m "feat: Sync universities folder from WikiSyllabus to Beyond-Syllabus"
 
-      # Step 9: Push changes to Beyond-Syllabus repository
+      # Step 9: Push changes
       - name: Push changes to Beyond-Syllabus
         run: |
           cd Beyond-Syllabus
