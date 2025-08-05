@@ -4,13 +4,24 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+
 permissions:
   contents: write
+
 jobs:
   generate-contributors:
     runs-on: ubuntu-latest
 
+    if: ${{ github.repository == 'The-Purple-Movement/WikiSyllabus' }}
+
     steps:
+      - name: Exit early if this is a fork (fallback safety)
+        run: |
+          if [ "${{ github.repository }}" != "The-Purple-Movement/WikiSyllabus" ]; then
+            echo "This is a fork — exiting workflow early."
+            exit 1
+          fi
+
       # 1️⃣ Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -23,15 +34,14 @@ jobs:
         with:
           node-version: 20
 
-      # 3️⃣ Install dependencies (no package.json needed)
-      - name: Install required dependencies
-        run: npm install js-yaml gray-matter node-fetch@2 glob
+      # 3️⃣ Install required dependencies in-memory (no package.json)
+      - name: Install dependencies
+        run: npm install gray-matter node-fetch@2 glob
 
-      # 4️⃣ Create the script (NO escaped backticks — valid JS)
-      - name: Create generate-contributors.js
+      # 4️⃣ Run script inline (no .js file saved)
+      - name: Generate CONTRIBUTORS.md
         run: |
-          mkdir -p .github/scripts
-          cat > .github/scripts/generate-contributors.js <<'EOF'
+          node - <<'EOF'
           const fs = require("fs");
           const matter = require("gray-matter");
           const fetch = require("node-fetch");
@@ -117,21 +127,20 @@ jobs:
             console.log("🎉 CONTRIBUTORS.md updated!");
           })();
           EOF
-
-      # 5️⃣ Run the script
-      - name: Run script
-        run: node .github/scripts/generate-contributors.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
 
-      # 6️⃣ Commit & push if CONTRIBUTORS.md changed
-      - name: Commit and push if changed
+      # 5️⃣ Commit & push only if CONTRIBUTORS.md changed
+      - name: Commit and push if CONTRIBUTORS.md changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [ -n "$(git status --porcelain)" ]; then
-            git add CONTRIBUTORS.md
+
+          git add CONTRIBUTORS.md
+          if git diff --cached --quiet; then
+            echo "✅ No changes in CONTRIBUTORS.md to commit."
+          else
             git commit -m "chore: update CONTRIBUTORS.md [skip ci]"
             git push
           fi

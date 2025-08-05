@@ -1,0 +1,78 @@
+name: Sync Universities Folder
+
+on:
+  push:
+    paths:
+      - 'universities/**'
+    branches:
+      - main
+  schedule:
+    - cron: '0 */6 * * *' # Run every 6 hours
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Check if the repository is the original, not a fork
+      - name: Check if the repository is a fork
+        run: |
+          if [[ "${GITHUB_REPOSITORY}" != "The-Purple-Movement/WikiSyllabus" ]]; then
+            echo "This workflow does not run on forks."
+            exit 0
+          fi
+
+      # Step 2: Checkout WikiSyllabus repo
+      - name: Checkout WikiSyllabus repository
+        uses: actions/checkout@v3
+        with:
+          repository: The-Purple-Movement/WikiSyllabus
+          ref: main
+
+      # Step 3: Configure Git identity
+      - name: Set up Git config
+        run: |
+          git config --global user.name "akshay-k-a-dev"
+          git config --global user.email "akshayka@mamocollege.org"
+
+      # Step 4: Clone Beyond-Syllabus repository
+      - name: Clone Beyond-Syllabus repository
+        run: |
+          git clone https://github.com/The-Purple-Movement/Beyond-Syllabus.git
+          cd Beyond-Syllabus
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/The-Purple-Movement/Beyond-Syllabus.git
+
+      # Step 5: Ensure correct branch
+      - name: Checkout the correct branch (main or master)
+        run: |
+          cd Beyond-Syllabus
+          git fetch origin
+          git checkout main || git checkout master || git checkout -b main
+
+      # Step 6: Copy universities folder
+      - name: Copy universities folder to Beyond-Syllabus
+        run: |
+          cp -r universities/* Beyond-Syllabus/universities/
+
+      # Step 7: Verify copied files
+      - name: Verify files in universities folder
+        run: |
+          ls -R Beyond-Syllabus/universities/
+
+      # Step 8: Commit only if there are changes
+      - name: Add and commit changes if any
+        run: |
+          cd Beyond-Syllabus
+          git add universities/
+          if git diff --cached --quiet; then
+            echo "No changes to commit. Skipping workflow."
+            exit 0
+          fi
+          git commit -m "feat: Sync universities folder from WikiSyllabus to Beyond-Syllabus"
+
+      # Step 9: Push changes
+      - name: Push changes to Beyond-Syllabus
+        run: |
+          cd Beyond-Syllabus
+          git push origin main
