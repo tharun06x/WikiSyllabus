@@ -64,6 +64,9 @@ language: "english"
 contributor: "@your-github-username"
 ---
 
+
+````
+
 ### 📄 Common Papers
 
 Some papers are **shared between multiple courses**.
@@ -101,8 +104,6 @@ contributor: "@your-github-username"
 > `common_for` lists the branches/courses this paper is applicable to.
 
 ---
-````
-
 Follow this with the syllabus content (objectives, content, references, etc.)
 
 ---
