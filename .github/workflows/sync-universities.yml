@@ -58,22 +58,17 @@ jobs:
       # Step 7: Verify copied files
       - name: Verify files in universities folder
         run: |
-          ls -R Beyond-Syllabus/universities/
+          ls -R Beyond-Syllabus/universities/ || true
 
-      # Step 8: Commit only if there are changes
-      - name: Add and commit changes if any
+      # Step 8: Commit changes (ignore if nothing to commit)
+      - name: Commit changes
         run: |
           cd Beyond-Syllabus
-          git add universities/
-          git status
-          if git diff --cached --quiet; then
-            echo "No changes to commit. Skipping workflow."
-            exit 0
-          fi
-          git commit -m "feat: Sync universities folder (added/updated files only)"
+          git add universities/ || true
+          git commit -m "feat: Sync universities folder from WikiSyllabus" || echo "No commit needed, skipping."
 
-      # Step 9: Push changes
-      - name: Push changes to Beyond-Syllabus
+      # Step 9: Push changes (ignore errors)
+      - name: Push changes
         run: |
           cd Beyond-Syllabus
-          git push origin main
+          git push origin main || echo "No changes to push, skipping."
