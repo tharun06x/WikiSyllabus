@@ -51,7 +51,6 @@ universities/ktu/computer-science/2019/s8/01.md
 ## 📝 Markdown File Format
 
 Each `.md` file must start with YAML frontmatter:
-
 ```yaml
 ---
 country: "india"
@@ -63,6 +62,44 @@ course_code: "cst402"
 course_title: "distributed-computing"
 language: "english"
 contributor: "@your-github-username"
+---
+
+### 📄 Common Papers
+
+Some papers are **shared between multiple courses**.
+To keep things clean and avoid duplication:
+
+* **Folder Structure:**
+
+```
+universities/common-paper/<year>/<semester>/<xx>.md
+```
+
+Example:
+
+```
+universities/common-paper/2019/s1/01.md
+```
+
+* **YAML Frontmatter:**
+
+```yaml
+---
+country: "india"
+university: "ktu"
+branch: "common-paper"
+version: "2019"
+semester: 1
+course_code: "mat101"
+course_title: "engineering-mathematics-1"
+language: "english"
+common_for: ["computer-science", "mechanical-engineering", "electrical-engineering"]
+contributor: "@your-github-username"
+---
+```
+
+> `common_for` lists the branches/courses this paper is applicable to.
+
 ---
 ````
 
